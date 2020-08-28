@@ -7,3 +7,5 @@
 2. `$ sudo nix-channel --update`
 
 3. Add this repository into your `configuration.nix`'s imports
+
+(better docs coming soon)
