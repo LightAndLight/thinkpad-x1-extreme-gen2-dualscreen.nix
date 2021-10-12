@@ -30,17 +30,10 @@ in {
     thinkpad.dualscreen = {
       enable = mkEnableOption "Dualscreen configuration";
       outputs = mkOption {
-        type = types.attrsOf types.attrs;
+        type = types.nullOr (types.attrsOf types.attrs);
         description = "xrandr output configurations";
-        defaultText = "See example for available options";
-        default = {
-          eDP1 = {
-            primary = false;
-            mode = "3840x2160";
-            pos = "0x2160";
-            rotate = "normal";
-          };
-        };
+        defaultText = "Defaults to null. See example for available options.";
+        default = null;
         example = literalExpression ''
           {
             eDP1 = {
@@ -77,7 +70,7 @@ in {
     };
 
     systemd.user.services.dualscreen = {
-      enable = true;
+      enable = cfg.outputs != null;
       preStart = "${pkgs.coreutils}/bin/sleep 3";
       script = ''
         ${pkgs.coreutils}/bin/echo "Running xrandr..."
